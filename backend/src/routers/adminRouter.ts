@@ -1,4 +1,5 @@
 import express from "express";
+import authenticateUser from "../middleware/authenticateUser";
 
 const adminRouter = express.Router();
 
@@ -8,6 +9,7 @@ adminRouter.get("/", (req: any, res: any) => {
   });
 });
 
-adminRouter.get("/tasks", (req: any, res: any) => {});
+// getting all the tasks
+adminRouter.get("/tasks", authenticateUser, (req: any, res: any) => {});
 
 export default adminRouter;
