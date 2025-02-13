@@ -23,8 +23,13 @@ const loginController = async (req: any, res: any) => {
 
     const user = await prisma.user.findUnique({
       where: { email: isVerifiedInput.data.email },
+      select: {
+        id: true,
+        email: true,
+        isAdmin: true,
+        password: true,
+      },
     });
-
 
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
@@ -45,7 +50,15 @@ const loginController = async (req: any, res: any) => {
       { expiresIn: "1h" }
     );
 
-    res.json({ message: "Login successful", token });
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });

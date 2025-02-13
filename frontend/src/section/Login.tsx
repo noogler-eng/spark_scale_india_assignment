@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userSlice";
 
 export default function Login({
   setIsLogin,
@@ -11,6 +13,7 @@ export default function Login({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,6 +24,13 @@ export default function Login({
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", "Bearer " + res.data.token);
+        dispatch(
+          login({
+            id: res.data.user.id,
+            email: res.data.user.email,
+            isAdmin: res.data.user.isAdmin,
+          })
+        );
         navigate("/home");
       })
       .catch((err: any) => {

@@ -4,6 +4,7 @@ import getUsersTasks from "../controllers/user/getUserTasks";
 import addTask from "../controllers/user/addTask";
 import editTask from "../controllers/user/editTask";
 import addSubTask from "../controllers/user/addSubTask";
+import getUser from "../controllers/user/getUser";
 
 const userRouter = express.Router();
 
@@ -14,6 +15,8 @@ userRouter.get("/", (req: any, res: any) => {
   });
 });
 
+// getting the user
+userRouter.get("/getUser", authenticateUser, getUser);
 // get specific user tasks
 userRouter.get("/tasks", authenticateUser, getUsersTasks);
 // add new task
