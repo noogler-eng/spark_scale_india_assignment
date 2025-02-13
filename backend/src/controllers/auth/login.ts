@@ -10,18 +10,21 @@ const loginController = async (req: any, res: any) => {
   try {
     const zodObject = z.object({
       email: string().email(),
-      password: string().length(6),
+      password: string(),
     });
 
     const isVerifiedInput = zodObject.safeParse(req.body);
-    if (!isVerifiedInput.success)
+    if (!isVerifiedInput.success) {
+      console.log(isVerifiedInput.error);
       return res.status(400).json({
         msg: "Invalid inputs",
       });
+    }
 
     const user = await prisma.user.findUnique({
       where: { email: isVerifiedInput.data.email },
     });
+
 
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
@@ -44,6 +47,7 @@ const loginController = async (req: any, res: any) => {
 
     res.json({ message: "Login successful", token });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
