@@ -8,4 +8,6 @@ adminRouter.get("/", (req: any, res: any) => {
   });
 });
 
+adminRouter.get("/tasks", (req: any, res: any) => {});
+
 export default adminRouter;

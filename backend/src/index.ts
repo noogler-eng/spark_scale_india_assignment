@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import adminRouter from "./routers/adminRouter";
 import userRouter from "./routers/userRouter";
+import authRouter from "./routers/authRouters";
 dotenv.config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.get("/", (req: any, res: any) => {
 
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
+app.use("/auth", authRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
